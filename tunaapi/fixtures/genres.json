@@ -1,0 +1,23 @@
+[
+  {
+      "model": "tunaapi.genre",
+      "pk": 1,
+      "fields": {
+          "description": "nerd rap"
+      }
+  },
+  {
+      "model": "tunaapi.genre",
+      "pk": 2,
+      "fields": {
+          "description": "flu gaze"
+      }
+  },
+  {
+      "model": "tunaapi.genre",
+      "pk": 3,
+      "fields": {
+          "description": "jeff jazz"
+      }
+  }
+]
