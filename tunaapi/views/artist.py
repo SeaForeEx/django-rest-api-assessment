@@ -7,7 +7,7 @@ from tunaapi.models import Artist
 class ArtistView(ViewSet):
     """Artist Views"""
     def create(self, request):
-        """Handle POST operations"""
+        """CREATE Artist"""
         artist = Artist.objects.create(
             name=request.data["name"],
             age=request.data["age"],
@@ -28,6 +28,22 @@ class ArtistView(ViewSet):
         artists = Artist.objects.all()
         serializer = ArtistSerializer(artists, many=True)
         return Response(serializer.data)
+      
+    def update(self, request, pk):
+        """UPDATE Artist"""
+        artist = Artist.objects.get(pk=pk)
+        artist.name = request.data["name"]
+        artist.age = request.data["age"]
+        artist.bio = request.data["bio"]
+        artist.save()
+        
+        return Response('Artist edited', status=status.HTTP_204_NO_CONTENT)
+      
+    def destroy(self, request, pk):
+        """DELETE Artist"""
+        artist = Artist.objects.get(pk=pk)
+        artist.delete()
+        return Response('Artist deleted', status=status.HTTP_204_NO_CONTENT)
       
 class ArtistSerializer(serializers.ModelSerializer):
     """JSON serializer for artists"""
