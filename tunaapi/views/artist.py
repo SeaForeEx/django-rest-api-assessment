@@ -1,4 +1,4 @@
-from django.http import HttpResponseServerError
+# from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -35,8 +35,7 @@ class ArtistView(ViewSet):
         artist.name = request.data["name"]
         artist.age = request.data["age"]
         artist.bio = request.data["bio"]
-        artist.save()
-        
+        artist.save()     
         return Response('Artist edited', status=status.HTTP_204_NO_CONTENT)
       
     def destroy(self, request, pk):
