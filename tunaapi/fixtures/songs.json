@@ -1,0 +1,32 @@
+[
+  {
+      "model": "tunaapi.song",
+      "pk": 1,
+      "fields": {
+          "title": "spontaneous lyricombustion",
+          "artist_id": 1,
+          "album": "bootcamp insanity",
+          "length": 44
+      }
+  },
+  {
+      "model": "tunaapi.song",
+      "pk": 2,
+      "fields": {
+          "title": "coreytaylorswift",
+          "artist_id": 2,
+          "album": "renderatl was amazing",
+          "length": 55
+      }
+  },
+  {
+      "model": "tunaapi.song",
+      "pk": 3,
+      "fields": {
+          "title": "i am a genius",
+          "artist_id": 3,
+          "album": "freyed or grilled",
+          "length": 66
+      }
+  }
+]
