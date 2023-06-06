@@ -19,20 +19,20 @@ class GenreView(ViewSet):
         """GET Single Genre"""
         genre = Genre.objects.get(pk=pk)
         serializer = GenreSerializer(genre)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
       
     def list(self, request):
         """GET All Genres"""
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
       
     def update(self, request, pk):
         """UPDATE Genre"""
         genre = Genre.objects.get(pk=pk)
         genre.description = request.data["description"]
         genre.save()
-        return Response('Genre edited', status=status.HTTP_204_NO_CONTENT)
+        return Response('Genre edited', status=status.HTTP_200_OK)
       
     def destroy(self, request, pk):
         """DELETE Genre"""

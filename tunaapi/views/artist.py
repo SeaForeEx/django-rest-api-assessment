@@ -21,13 +21,13 @@ class ArtistView(ViewSet):
         """GET Single Artist"""
         artist = Artist.objects.get(pk=pk)
         serializer = ArtistSerializer(artist)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
         
     def list(self, request):
         """GET All Artists"""
         artists = Artist.objects.all()
         serializer = ArtistSerializer(artists, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
       
     def update(self, request, pk):
         """UPDATE Artist"""
@@ -36,7 +36,7 @@ class ArtistView(ViewSet):
         artist.age = request.data["age"]
         artist.bio = request.data["bio"]
         artist.save()     
-        return Response('Artist edited', status=status.HTTP_204_NO_CONTENT)
+        return Response('Artist edited', status=status.HTTP_200_OK)
       
     def destroy(self, request, pk):
         """DELETE Artist"""
