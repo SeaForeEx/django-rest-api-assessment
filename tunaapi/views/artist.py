@@ -64,8 +64,9 @@ class ArtistView(ViewSet):
 class ArtistSerializer(serializers.ModelSerializer):
     """JSON serializer for artists"""
     song_count = serializers.IntegerField(default=None)
+
     class Meta:
-        model = Artist
-        fields = ('id', 'name', 'age', 'bio', 'song_count', 'songs')
-        depth = 2
+        model = Artist  # Specifies the model that this serializer is working with (Artist)
+        fields = ('id', 'name', 'age', 'bio', 'song_count', 'songs')  # List of fields to be serialized in the output
+        depth = 2  # Specifies the depth of nested relationships to be serialized
     
