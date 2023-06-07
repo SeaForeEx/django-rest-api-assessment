@@ -17,7 +17,7 @@ class GenreView(ViewSet):
       
     def retrieve(self, request, pk):
         """GET Single Genre"""
-        genre = Genre.objects.get(pk=pk)
+        genre = Genre.objects.prefetch_related('songs').get(pk=pk)
         serializer = GenreSerializer(genre)
         return Response(serializer.data, status=status.HTTP_200_OK)
       
@@ -44,4 +44,5 @@ class GenreSerializer(serializers.ModelSerializer):
     """JSON serializer for genres"""
     class Meta:
         model = Genre
-        fields = ('id', 'description')
+        fields = ('id', 'description', 'songs')
+        depth = 2
