@@ -30,19 +30,11 @@ class ArtistView(ViewSet):
         serializer = ArtistSerializer(artist)
 
         # Return the serialized artist object as a JSON response with a 200 OK status code
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    # def retrieve(self, request, pk):
-    #     """GET Single Artist"""
-    #     artist_id = Artist.objects.get(pk=pk)
-    #     artist_songs = Song.objects.annotate(song_count=Count('songs', filter=Q(songs__artist=artist_id)))
-    #     serializer = ArtistSerializer(artist_songs)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    
+        return Response(serializer.data, status=status.HTTP_200_OK) 
         
     def list(self, request):
         """GET All Artists"""
-        artists = Artist.objects.all()
+        artists = Artist.objects.annotate(song_count=Count('songs')).all()
         serializer = ArtistSerializer(artists, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
       
@@ -68,5 +60,5 @@ class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist  # Specifies the model that this serializer is working with (Artist)
         fields = ('id', 'name', 'age', 'bio', 'song_count', 'songs')  # List of fields to be serialized in the output
-        depth = 2  # Specifies the depth of nested relationships to be serialized
+        depth = 1  # Specifies the depth of nested relationships to be serialized
     
