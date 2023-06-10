@@ -3,7 +3,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from django.db.models import Count
-from tunaapi.models import Artist
+from tunaapi.models import Artist, Song
 
 class ArtistView(ViewSet):
     """Artist Views"""
@@ -53,12 +53,31 @@ class ArtistView(ViewSet):
         artist.delete()
         return Response('Artist deleted', status=status.HTTP_204_NO_CONTENT)
       
+# SongSerializer is a custom serializer for the Song model
+class SongSerializer(serializers.ModelSerializer):
+    """
+    JSON serializer for songs
+    """
+    class Meta:
+        model = Song  # Specifies the model that this serializer is working with (Song)
+        fields = ('id', 'title', 'album', 'length')  # List of fields to be serialized in the output
+
+# ArtistSerializer is a custom serializer for the Artist model
 class ArtistSerializer(serializers.ModelSerializer):
-    """JSON serializer for artists"""
-    song_count = serializers.IntegerField(default=None)
+    """
+    JSON serializer for artists
+    """
+    song_count = serializers.IntegerField(default=None)  # A field to store the number of songs associated with the artist
+    songs = serializers.SerializerMethodField()  # A custom field to get the list of songs associated with the artist
 
     class Meta:
         model = Artist  # Specifies the model that this serializer is working with (Artist)
         fields = ('id', 'name', 'age', 'bio', 'song_count', 'songs')  # List of fields to be serialized in the output
         depth = 1  # Specifies the depth of nested relationships to be serialized
-    
+
+    # The get_songs method is a custom method to retrieve the list of songs associated with the artist
+    def get_songs(self, obj):
+        """Get them songs"""
+        songs = obj.songs.all()  # Get all the related songs for the given artist
+        serializer = SongSerializer(songs, many=True)  # Create a new SongSerializer instance for serializing the list of songs
+        return serializer.data  # Return the serialized data of the list of songs

@@ -48,21 +48,28 @@ class SongView(ViewSet):
         song.delete()
         return Response('Song deleted', status=status.HTTP_204_NO_CONTENT)
 
+# SongSerializer is a custom serializer for the Song model
 class SongSerializer(serializers.ModelSerializer):
-    """JSON serializer for songs"""
+    """
+    JSON serializer for songs
+    """
+    # This serializer inherits from the ModelSerializer class
+    artist = serializers.SerializerMethodField()  # A custom field to get the artist information
+    genres = serializers.SerializerMethodField()  # A custom field to get the genres information
 
-    artist = serializers.SerializerMethodField()
-    genres = serializers.SerializerMethodField()
-
+    # The Meta class specifies the model and the fields to be serialized
     class Meta:
-        model = Song
-        fields = ('id', 'title', 'artist', 'album', 'length', 'genres')
-        
+        model = Song  # The model associated with this serializer
+        fields = ('id', 'title', 'artist', 'album', 'length', 'genres')  # The fields to be serialized
+
+    # The get_genres method is a custom method to retrieve the genres related to a song
     def get_genres(self, obj):
         """Get Them Genres"""
-        genres = obj.genres.all()
-        return [{'id': genre.genre_id.id, 'description': genre.genre_id.description} for genre in genres]
+        genres = obj.genres.all()  # Get all the related genres for the given song
+        return [{'id': genre.genre_id.id, 'description': genre.genre_id.description} for genre in genres]  # Return a list of dictionaries with the genre_id and genre_id.description
+
+    # The get_artist method is a custom method to retrieve the artist information
     def get_artist(self, obj):
-        """Get Them Artists"""
-        artist = obj.artist_id
-        return [{'id': artist.id, 'name': artist.name,'age': artist.age, 'bio': artist.bio}]
+        """Get The Artist"""
+        artist = obj.artist_id  # Get the artist_id of the given song
+        return {'id': artist.id, 'name': artist.name, 'age': artist.age, 'bio': artist.bio}  # Return a list of dictionaries with the artist information
